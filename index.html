@@ -9,20 +9,40 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-    <header class="col-12 bg-dark text-light sticky-top">
+    <header class="col-12 sticky-top">
         <h1>Weather Dashboard</h1>
     </header>
 
     <main>
         <div class="container">
             <div class="row">
-                <form class="col-3">
-                    <label class="form-label" for="city">Search for a City</label>
-                    <input name="city" id="city" type="text" autofocus="true" class="form-input" />
-                    <button type="submit" class="btn-primary">Search</button>
-                </form>
+                <div class="card h-100 border-dark col-4">
+                    <form>
+                        <div class="mb-3 card-title">
+                            <label class="form-label" for="city">Search for a City</label>
+                            <input name="city" id="city" type="text" autofocus="true" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+                <div class="card h-100 border-dark col-8">
+                    <h2>Atlanta 01/01/22</h2>
+                    <p>Temp:</p>
+                    <p>Wind:</p>
+                    <p>Humidity:</p>
+                    <p>UV Index:</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card h-100 border-dark col-4 search-btns"></div>
+                <div class="card h-100 border-dark col-8">
+                    <div class="card-title">
+                        <h3>5 Day Forecast:</h3>
+                    </div>
+                </div>
             </div>
         </div>
+
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

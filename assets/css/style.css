@@ -1,0 +1,17 @@
+header {
+    background-image: url("../images/cloud-banner.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: initial;
+    padding: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+body {
+    background-color: aliceblue;
+}
+
+form {
+    padding: 8px 13px 13px 5px;
+}
