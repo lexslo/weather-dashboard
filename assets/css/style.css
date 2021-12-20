@@ -1,3 +1,7 @@
+* {
+    margin: 0;
+}
+
 header {
     background-image: url("../images/cloud-banner.png");
     background-size: cover;
