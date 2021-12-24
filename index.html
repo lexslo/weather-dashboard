@@ -17,20 +17,20 @@
         <div class="container">
             <div class="row justify-content-between">
                 <div class="card h-100 border-dark col-3">
-                    <form>
+                    <form id="search-city">
                         <div class="mb-3 card-title">
                             <label class="form-label" for="city">Search for a City</label>
                             <input name="city" id="city" type="text" autofocus="true" class="form-control" />
                         </div>
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button id="search-btn" type="submit" class="btn btn-primary">Search</button>
                     </form>
                 </div>
                 <div class="card h-100 border-dark col-8">
-                    <h2>Atlanta 01/01/22</h2>
-                    <p>Temp:</p>
-                    <p>Wind:</p>
-                    <p>Humidity:</p>
-                    <p>UV Index:</p>
+                    <h2 id="city-name"><span id="date"></span></h2>
+                    <p id="temp"></p>
+                    <p id="wind"></p>
+                    <p id="hum"></p>
+                    <p id="uvi"><span id="uvi-status" class="badge"></span></p>
                 </div>
             </div>
             <div class="row justify-content-between">
