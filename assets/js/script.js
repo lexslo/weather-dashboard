@@ -37,13 +37,17 @@ function getCityWeather (city) {
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
+                console.log(data);
                 // temp variable using temp from API converted to Fahrenheit
                 var temp = (Math.round(kelvinToF(data.main.temp)));
                 // wind variable using wind speed from API converted to MPH
                 var wind = (Math.round(mpsToMph(data.wind.speed)));
                 var hum = ((data.main.humidity));
+                var iconUrl = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
                 // pass city name, temp, wind, and humidity to writeToPage function
                 writeToPage(city, temp, wind, hum);
+                // pass icon variable to addWeatherIcon function
+                addWeatherIcon(iconUrl);
                 // pass lat and lon coordinates to getUvi function
                 getUvi(data.coord.lat, data.coord.lon);
             })
@@ -75,11 +79,20 @@ function writeToPage (city, temp, wind, hum) {
     // clear all previous information
     $(".current").empty();
     // dynamically update information to page
-    $("#city-name").text(city);
-    $("#date").append(today);
+    $("#city-name").text(`${city} ${today}`);
+    // $("#city-n").text(today);
     $("#temp").append(`Temp: ${temp}<span>&#8457;</span>`);
     $("#wind").text(`Wind: ${wind}mph`);
     $("#hum").text(`Humidity: ${hum}%`);
+}
+
+function addWeatherIcon (icon) {
+
+    var img = $("<img></img>")
+        .attr("src", icon)
+        .attr("alt", "Weather Icon");
+
+    $("#city-name").append(img);
 }
 
 function writeUvi (uvi) {
