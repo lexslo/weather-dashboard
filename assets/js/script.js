@@ -15,6 +15,8 @@
 // exclude is an optional paramter to exclude specific data
 
 const apiKey = "bc6a9ceb597185d2cfceed6b968a466f";
+var today = new Date();
+today = today.toLocaleDateString("en-US");
 
 // function to convert Kelvin to fahrenheit
 function kelvinToF (kelvin) {
@@ -70,24 +72,33 @@ function getUvi (lat, lon) {
 
 // function to update page elements with city name, temp, wind speed, and humidity
 function writeToPage (city, temp, wind, hum) {
+    // clear all previous information
+    $(".current").empty();
+    // dynamically update information to page
     $("#city-name").text(city);
-    $("#temp").text(`Temp: ${temp}F`);
+    $("#date").append(today);
+    $("#temp").append(`Temp: ${temp}<span>&#8457;</span>`);
     $("#wind").text(`Wind: ${wind}mph`);
     $("#hum").text(`Humidity: ${hum}%`);
 }
 
 function writeUvi (uvi) {
     //update UV index badge with current UV index
-    $("#uvi-status").text(uvi);
-    // remove hidden class from <p>
-    $("#uvi").removeClass("hidden");
+    $("#uvi").text("UV Index: ");
+    //create a span with id uvi-status and badge class for UVI
+    var span = $("<span></span>")
+        .attr("id", "uvi-status")
+        .addClass("badge")
+        .text(uvi);
+    $("#uvi").append(span);
+
     // check for UV index number and apply color based on safety
     if (uvi < 5) {
-        $("#uvi-status").addClass("badge-success");
+        $("#uvi-status").addClass("badge badge-success");
     } else if (uvi > 5 && uvi < 10) {
-        $("#uvi-status").addClass("badge-warning");
+        $("#uvi-status").addClass("badge badge-warning");
     } else if (uvi >= 10) {
-        $("#uvi-status").addClass("badge-danger");
+        $("#uvi-status").addClass("badge badge-danger");
     }
 }
 // target search button in the <form> section
