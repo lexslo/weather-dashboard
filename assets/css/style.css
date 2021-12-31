@@ -20,6 +20,6 @@ form {
     padding: 8px 13px 13px 5px;
 }
 
-.hidden {
-    display: none;
+.card {
+    margin-bottom: 20px;
 }

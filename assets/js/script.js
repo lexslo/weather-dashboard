@@ -49,7 +49,7 @@ function getCityWeather (city) {
                 // pass icon variable to addWeatherIcon function
                 addWeatherIcon(iconUrl);
                 // pass lat and lon coordinates to getUvi function
-                getUvi(data.coord.lat, data.coord.lon);
+                getUviAndForecast(data.coord.lat, data.coord.lon);
             })
         } else {
             console.log("Error reaching open weather API");
@@ -58,16 +58,28 @@ function getCityWeather (city) {
 
 }
 
-function getUvi (lat, lon) {
+function getUviAndForecast (lat, lon) {
     // one call URL using lat and lon pulled from previous API call
     apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${apiKey}`;
 
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
+                console.log(data);
                 // pass uvi from the object to writeUvi function
                 writeUvi(data.current.uvi);
-        })
+                // check for index of data.daily to ensure it is past today
+                data.daily.forEach(function (value, index) {
+                    // 0 is today, check for up to 5 days forecast
+                    if (index > 0 && index <= 5) {
+                        // convert unix to milliseconds in new Date object
+                        var newDay = new Date(value.dt * 1000).toLocaleDateString("en-US");
+                        var iconUrl = `http://openweathermap.org/img/w/${value.weather[0].icon}.png`;
+                        var temp = Math.round(kelvinToF(value.temp.day));
+                        writeForecast(newDay,iconUrl,temp);
+                    }
+                })
+            })
         } else {
             console.log("error");
         }
@@ -82,7 +94,7 @@ function writeToPage (city, temp, wind, hum) {
     $("#city-name").text(`${city} ${today}`);
     // $("#city-n").text(today);
     $("#temp").append(`Temp: ${temp}<span>&#8457;</span>`);
-    $("#wind").text(`Wind: ${wind}mph`);
+    $("#wind").text(`Wind: ${wind} mph`);
     $("#hum").text(`Humidity: ${hum}%`);
 }
 
@@ -114,6 +126,17 @@ function writeUvi (uvi) {
         $("#uvi-status").addClass("badge badge-danger");
     }
 }
+
+function writeForecast (date, icon, temp) {
+    var forecastDay = `<div class="card h-100 border-dark col-12 forecast-day">
+                        <div class="card-title">
+						    <h5>${date}<img src=${icon} alt="Weather Icon" /></h5>
+                        </div>
+						    <p>Temp: ${temp}<span>&#8457;</span></p>
+					    </div>`;
+    $("#forecast").append(forecastDay);
+}
+
 // target search button in the <form> section
 $("#search-city").on("submit", function (event) {
     event.preventDefault();
