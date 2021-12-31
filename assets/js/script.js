@@ -37,7 +37,6 @@ function getCityWeather (city) {
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(data);
                 // temp variable using temp from API converted to Fahrenheit
                 var temp = (Math.round(kelvinToF(data.main.temp)));
                 // wind variable using wind speed from API converted to MPH
@@ -65,7 +64,6 @@ function getUviAndForecast (lat, lon) {
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(data);
                 // pass uvi from the object to writeUvi function
                 writeUvi(data.current.uvi);
                 // check for index of data.daily to ensure it is past today
@@ -134,7 +132,7 @@ function writeForecast (date, icon, temp, wind, hum) {
     var forecastDay = `
                     <div class="card border-dark col-lg-2 col-md-2 col-sm-12 forecast-day">
                         <div class="card-title">
-                            <h5>${date}<img src=${icon} alt="Weather Icon" /></h5>
+                            <h6>${date}<img src=${icon} alt="Weather Icon" /></h6>
                         </div>
                             <p>Temp: ${temp}<span>&#8457;</span></p>
                             <p>Wind: ${wind} mph</p>
@@ -176,11 +174,11 @@ $("#search-city").on("submit", function (event) {
     saveSearch();
 });
 
-$("#search-btn").on("click", function (event) {
-    // event.preventDefault();
-    console.log('button clicked');
-    var city = $("search-btn").text();
-    getCityWeather(city);
-})
+// $("#search-btn").on("click", function (event) {
+//     // event.preventDefault();
+//     console.log('button clicked');
+//     var city = $("search-btn").text();
+//     getCityWeather(city);
+// })
 
-loadSearch();
+// loadSearch();
