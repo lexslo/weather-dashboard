@@ -10,13 +10,13 @@
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 
-// https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=bc6a9ceb597185d2cfceed6b968a466f
-// lat and lon will be dynamically created and updated variables
-// exclude is an optional paramter to exclude specific data
-
 const apiKey = "bc6a9ceb597185d2cfceed6b968a466f";
 var today = new Date();
 today = today.toLocaleDateString("en-US");
+// object to hold previously searched cities
+var prevSearchObj = {};
+// variable to index searches in object
+var searchIndex = 0;
 
 // function to convert Kelvin to fahrenheit
 function kelvinToF (kelvin) {
@@ -144,6 +144,27 @@ function writeForecast (date, icon, temp, wind, hum) {
     $("#forecast").append(forecastDay);
 }
 
+function saveSearch () {
+    var searchCity = $("#city").val();
+    prevSearchObj[searchIndex] = searchCity;
+    searchIndex++;
+
+    localStorage.setItem("search", JSON.stringify(prevSearchObj));
+}
+
+function loadSearch () {
+    var searches = localStorage.getItem("search");
+    if (searches) {
+        // turn local storage string into object
+        prevSearchObj = JSON.parse(searches) || {};
+
+        for (var index in prevSearchObj) {
+            var newButton = $(`<button id="search-btn" class="btn btn-primary">${prevSearchObj[index]}</button>`);
+            $("#search-history").append(newButton);
+          }
+    }
+}
+
 // target search button in the <form> section
 $("#search-city").on("submit", function (event) {
     event.preventDefault();
@@ -151,5 +172,15 @@ $("#search-city").on("submit", function (event) {
     var city = $("#city").val();
     // pass value from input to getCityWeather function
     getCityWeather(city);
-
+    // execute saveSearch function on button click
+    saveSearch();
 });
+
+$("#search-btn").on("click", function (event) {
+    // event.preventDefault();
+    console.log('button clicked');
+    var city = $("search-btn").text();
+    getCityWeather(city);
+})
+
+loadSearch();
