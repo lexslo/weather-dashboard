@@ -9,23 +9,23 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-    <header class="col-12 sticky-top">
+    <header>
         <h1>Weather Dashboard</h1>
     </header>
 
     <main>
         <div class="container">
-            <div class="row justify-content-between">
-                <div class="card h-100 border-dark col-3">
+            <div class="row justify-content-around">
+                <div class="card border-dark col-lg-3 col-md-3 col-sm-12">
                     <form id="search-city">
                         <div class="mb-3 card-title">
                             <label class="form-label" for="city">Search for a City</label>
                             <input name="city" id="city" type="text" autofocus="true" class="form-control" />
                         </div>
-                        <button id="search-btn" type="submit" class="btn btn-primary">Search</button>
+                        <button id="search-btn" type="submit" class="btn btn-primary btn-block">Search</button>
                     </form>
                 </div>
-                <div class="card h-100 border-dark col-8">
+                <div class="card border-dark col-lg-8 col-md-8 col-sm-12">
                     <h3 id="city-name" class="current"><span id="date"></span></h3>
                     <p id="temp" class="current"></p>
                     <p id="wind" class="current"></p>
@@ -33,16 +33,23 @@
                     <p id="uvi" class="current"></p>
                 </div>
             </div>
-            <div class="row justify-content-between">
-                <div class="card h-100 border-dark col-3 search-btns">
-                    <div class="card-title">
-                        <h4>Search Again</h4>
-                    </div>
-                </div>
-                <div id="forecast" class="card h-100 border-dark col-8">
+        </div>
+        <div class="container">
+            <div class="row justify-content-around">
+                <div class="row justify-content-around card border-dark col-12">
                     <div class="card-title">
                         <h4>5 Day Forecast</h4>
                     </div>
+                    <div id="forecast" class="row justify-content-around"></div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row justify-content-around">
+                <div class="card border-dark col-12">
+                        <div class="card-title">
+                            <h4>Search Again</h4>
+                        </div>
                 </div>
             </div>
         </div>

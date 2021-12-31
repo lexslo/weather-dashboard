@@ -42,7 +42,7 @@ function getCityWeather (city) {
                 var temp = (Math.round(kelvinToF(data.main.temp)));
                 // wind variable using wind speed from API converted to MPH
                 var wind = (Math.round(mpsToMph(data.wind.speed)));
-                var hum = ((data.main.humidity));
+                var hum = (data.main.humidity);
                 var iconUrl = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
                 // pass city name, temp, wind, and humidity to writeToPage function
                 writeToPage(city, temp, wind, hum);
@@ -76,7 +76,9 @@ function getUviAndForecast (lat, lon) {
                         var newDay = new Date(value.dt * 1000).toLocaleDateString("en-US");
                         var iconUrl = `http://openweathermap.org/img/w/${value.weather[0].icon}.png`;
                         var temp = Math.round(kelvinToF(value.temp.day));
-                        writeForecast(newDay,iconUrl,temp);
+                        var wind = (Math.round(mpsToMph(value.wind_speed)));
+                        var hum = (value.humidity);
+                        writeForecast(newDay,iconUrl,temp,wind,hum);
                     }
                 })
             })
@@ -90,6 +92,7 @@ function getUviAndForecast (lat, lon) {
 function writeToPage (city, temp, wind, hum) {
     // clear all previous information
     $(".current").empty();
+    $(".forecast-day").remove();
     // dynamically update information to page
     $("#city-name").text(`${city} ${today}`);
     // $("#city-n").text(today);
@@ -127,13 +130,17 @@ function writeUvi (uvi) {
     }
 }
 
-function writeForecast (date, icon, temp) {
-    var forecastDay = `<div class="card h-100 border-dark col-12 forecast-day">
+function writeForecast (date, icon, temp, wind, hum) {
+    var forecastDay = `
+                    <div class="card border-dark col-lg-2 col-md-2 col-sm-12 forecast-day">
                         <div class="card-title">
-						    <h5>${date}<img src=${icon} alt="Weather Icon" /></h5>
+                            <h5>${date}<img src=${icon} alt="Weather Icon" /></h5>
                         </div>
-						    <p>Temp: ${temp}<span>&#8457;</span></p>
-					    </div>`;
+                            <p>Temp: ${temp}<span>&#8457;</span></p>
+                            <p>Wind: ${wind} mph</p>
+                            <p>Humidity: ${hum}%</p>
+                    </div>
+                    `;
     $("#forecast").append(forecastDay);
 }
 
