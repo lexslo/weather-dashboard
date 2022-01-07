@@ -146,12 +146,15 @@ function saveSearch () {
     var searchCity = $("#city").val();
     prevSearchObj[searchIndex] = searchCity;
     searchIndex++;
+    console.log(searchIndex);
     localStorage.setItem("search", JSON.stringify(prevSearchObj));
+    $("#search-history").empty();
     loadSearch();
 }
 
 function loadSearch () {
     var searches = localStorage.getItem("search");
+    // console.log(searches);
     if (searches) {
         // turn local storage string into object
         prevSearchObj = JSON.parse(searches) || {};
@@ -160,13 +163,11 @@ function loadSearch () {
         var numStored = Object.keys(prevSearchObj).length;
         // set storage counter to be up to date with number of items stored
         if (numStored > 0) {
-        searchIndex = numStored - 1;
-        } else {
-        searchIndex = numStored;
+            searchIndex = numStored;
         }
 
         for (var index in prevSearchObj) {
-            var newButton = $(`<button class="prev-search-btn btn btn-primary">${prevSearchObj[index]}</button>`);
+            var newButton = $(`<button id="prev-search-btn" class="btn btn-primary btn-block">${prevSearchObj[index]}</button>`);
             $("#search-history").append(newButton);
           }
     }
@@ -183,11 +184,11 @@ $("#search-city").on("submit", function (event) {
     saveSearch();
 });
 
-$(".prev-search-btn").on("click", function () {
-    console.log('button clicked');
-    var city = $(this).text();
-    console.log(city);
-    //getCityWeather(city);
-})
+$("#search-history").on("click", function (event) {
+    // target text of specific button clicked
+    var city = event.target.textContent;
+    // pass city to getCityWeather function
+    getCityWeather(city);
+});
 
 loadSearch();
